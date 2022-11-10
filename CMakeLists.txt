@@ -14,30 +14,30 @@ set(CMAKE_C_STANDARD 23)
 #add_executable(qjsc qjsc.c)
 #target_link_libraries(qjsc qjs-engine)
 
-file(STRINGS VERSION VERSION)
+file(STRINGS VERSION_ VERSION)
 
 include_directories( ${quickjs_SOURCE_DIR}/ )
 message([TRACE] " quickjs source = ${quickjs_SOURCE_DIR} ")
 
-file(GLOB quickjs_hpp ${quickjs_SOURCE_DIR}/*.h )
+#file(GLOB quickjs_hpp ${quickjs_SOURCE_DIR}/*.h )
+#
+#file(GLOB quickjs_src ${quickjs_SOURCE_DIR}/quickjs.c
+#        ${quickjs_SOURCE_DIR}/libregexp.c
+#        ${quickjs_SOURCE_DIR}/libunicode.c
+#        ${quickjs_SOURCE_DIR}/cutils.c
+#        ${quickjs_SOURCE_DIR}/quickjs-libc.c
+#        ${quickjs_SOURCE_DIR}/libbf.c
+#        )
 
-file(GLOB quickjs_src ${quickjs_SOURCE_DIR}/quickjs.c
-        ${quickjs_SOURCE_DIR}/libregexp.c
-        ${quickjs_SOURCE_DIR}/libunicode.c
-        ${quickjs_SOURCE_DIR}/cutils.c
-        ${quickjs_SOURCE_DIR}/quickjs-libc.c
-        ${quickjs_SOURCE_DIR}/libbf.c
-        )
 
-
-add_library( qjs-engine ${quickjs_src} ${quickjs_hpp} )
-target_compile_options(qjs-engine PRIVATE
-        -MMD -MF
-        -Wno-sign-compare
-        -Wno-missing-field-initializers
-        -Wundef -Wuninitialized
-        -Wundef -Wuninitialized -Wwrite-strings -Wchar-subscripts
-        )
+add_library( qjs-engine quickjs.c libregexp.c libunicode.c cutils.c quickjs-libc.c libbf.c)
+#target_compile_options(qjs-engine PRIVATE
+#        -MMD -MF
+#        -Wno-sign-compare
+#        -Wno-missing-field-initializers
+#        -Wundef -Wuninitialized
+#        -Wundef -Wuninitialized -Wwrite-strings -Wchar-subscripts
+#        )
 target_compile_definitions( qjs-engine PUBLIC
         CONFIG_BIGNUM=y
         CONFIG_VERSION="${VERSION}"
@@ -55,3 +55,6 @@ target_include_directories(qjs-engine PUBLIC ${quickjs_SOURCE_DIR})
 #
 #add_executable(qjs qjs.c repl.c qjscalc.c)
 #target_link_libraries(qjs qjs-engine)
+
+#add_executable(main main.cpp)
+#target_link_libraries(main qjs-engine)
