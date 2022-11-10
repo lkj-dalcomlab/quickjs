@@ -31,7 +31,7 @@ file(GLOB quickjs_src ${quickjs_SOURCE_DIR}/quickjs.c
 
 
 add_library( qjs-engine ${quickjs_src} ${quickjs_hpp} )
-target_compile_options( qjs-engine PRIVATE
+target_compile_options(qjs-engine PRIVATE
         -MMD -MF
         -Wno-sign-compare
         -Wno-missing-field-initializers
@@ -43,7 +43,7 @@ target_compile_definitions( qjs-engine PUBLIC
         CONFIG_VERSION="${VERSION}"
         _GNU_SOURCE
         )
-
+target_include_directories(qjs-engine PUBLIC ${quickjs_SOURCE_DIR})
 #add_executable(qjsc ${quickjs_SOURCE_DIR}/qjsc.c )
 #target_compile_definitions( qjsc  PUBLIC  CONFIG_BIGNUM=y  CONFIG_VERSION="${VERSION}" _GNU_SOURCE )
 #target_link_libraries( qjsc  qjs-engine )
