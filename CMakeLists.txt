@@ -13,6 +13,3 @@ target_compile_definitions( qjs-engine PUBLIC
         _GNU_SOURCE
         )
 target_include_directories(qjs-engine PUBLIC ${quickjs_SOURCE_DIR})
-
-add_executable(main main.cpp)
-target_link_libraries(main PRIVATE qjs-engine)
